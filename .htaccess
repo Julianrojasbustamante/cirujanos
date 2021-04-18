@@ -1,0 +1,6 @@
+#Imperdir igresar a los directorios
+Options All -Indexes
+
+#URL amiganles
+RewriteEngine On
+RewriteRule ^([-a-zA-Z0-9/]+)$ index.php?url=$1
