@@ -8,7 +8,7 @@ class Contacto_Ajax{
     public $email;
     public $telefono;
     public $mensaje;
-    public function registro_contacto_ajax(){
+    static public function registro_contacto_ajax(){
         $datos = array("nombre"=>htmlspecialchars($this->nombre),
                         "email"=>htmlspecialchars($this->email),
                         "telefono"=>htmlspecialchars($this->telefono),

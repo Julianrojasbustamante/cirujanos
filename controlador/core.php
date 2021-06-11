@@ -4,21 +4,21 @@ use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\Exception;
 
 class Core_Controlador{
-    public function mostrar_formulario_controlador($nombre_lista, $id_distinto) {
+    static public function mostrar_formulario_controlador($nombre_lista, $id_distinto) {
         $consulta = Core_Modelo::mostrar_formulario_modelo($nombre_lista, $id_distinto);
         foreach ($consulta as $fila => $item) {
             echo '<option value="'.$item["id"].'"> '.$item["nombre"].'</option>';
         }
     }
 
-    public function administrador_ingreso_controlador(){
+    static public function administrador_ingreso_controlador(){
         if(isset($_POST["ingreso_correo"]) && isset($_POST["ingreso_contrasena"])) {
             $encriptar = crypt(htmlspecialchars($_POST["ingreso_contrasena"]), '$2a$07$GSVs6pSNqiKLkHE6dOtZPejPtcf/bRSl2n2WvmNE2yIZAEW7t9J.a');
             $datos_ingreso = array("correo"=>htmlspecialchars($_POST["ingreso_correo"]), "contrasena"=>$encriptar);
             $respuesta = Core_Modelo::administrador_ingreso_modelo("usuario", $datos_ingreso);
             if($respuesta != false && $_POST["ingreso_contrasena"] != 'UsuarioSistema'){
                 date_default_timezone_set("America/Bogota");
-                $fecha = date("Y-m-d H:i:sa");
+                $fecha = date("Y-m-d H:i:s");
                 $datos_registro_ingreso = array("id_usuario"=>$respuesta["id"], "fecha"=>$fecha);
                 $ingreso = Core_Modelo::administrador_registro_ingreso_modelo("usuario", $datos_registro_ingreso);
                 $_SESSION["id"] = $respuesta["id"];
@@ -35,7 +35,7 @@ class Core_Controlador{
             }
             else if($respuesta != false && $encriptar == '$2a$07$GSVs6pSNqiKLkHE6dOtZPelYlIQQPV/f2H6on4TRJk3qk4W6fxuS2'){
                 date_default_timezone_set("America/Bogota");
-                $fecha = date("Y-m-d H:i:sa");
+                $fecha = date("Y-m-d H:i:s");
                 $datos_registro_ingreso = array("id_usuario"=>$respuesta["id"], "fecha"=>$fecha);
                 $ingreso = Core_Modelo::administrador_registro_ingreso_modelo("usuario", $datos_registro_ingreso);
                 $_SESSION["id"] = $respuesta["id"];
@@ -64,7 +64,7 @@ class Core_Controlador{
         }
     }   
 
-    public function perfil_usuario_controlador(){
+    static public function perfil_usuario_controlador(){
         // <img src="'.$GLOBALS['raiz'].'sistema/vista/img/avatar/'.$respuesta["avatar"].'" width="30" height="30" class="rounded-circle">
         $respuesta = Core_Modelo::perfil_usuario_modelo("usuario", $_SESSION["id"]);
         // echo '<a href="'.$GLOBALS["raiz"].'zona-clientes" title="Mi perfil" class="text-white">
@@ -73,7 +73,7 @@ class Core_Controlador{
         echo '<h3>'.$respuesta["nombres"].'</h3>';
     }
 
-    public function menu_controldor(){
+    static public function menu_controldor(){
         $respuesta = Core_Modelo::menu_modelo("menu");
         foreach ($respuesta as $fila => $columna){
             if($columna["nivel"] == 2){
@@ -234,7 +234,7 @@ class Core_Controlador{
         return $respuesta;
 	}
 
-    public function formulario_eliminar_slider_controlador($datos){
+    static public function formulario_eliminar_slider_controlador($datos){
         $respuesta = Core_Modelo::slider_modelo("slider");
         echo '<div class="alert alert-danger text-center">
                 <i class="icon fa fa-ban"></i><strong>ATENCIÓN:</strong><br>
@@ -278,7 +278,7 @@ class Core_Controlador{
         return $respuesta;
     }
 
-    public function formulario_editar_slider_controlador($datos){
+    static public function formulario_editar_slider_controlador($datos){
         $respuesta = Core_Modelo::slider_modelo("slider");
         echo '<div class="alert alert-success text-center">
                 <strong>INSTRUCCIONES:</strong><br>
@@ -350,7 +350,7 @@ class Core_Controlador{
         echo $respuesta;
     }
 
-    public function formulario_agregar_slider_controlador($datos){
+    static public function formulario_agregar_slider_controlador($datos){
         echo '<div class="form-group has-feedback">
                 <label class="control-label"><b>Selecciona una imagen:</b></label>
                 <input type="file" id="agregar_slider_imagen" class="form-control">
@@ -385,7 +385,7 @@ class Core_Controlador{
         echo $respuesta;
     }
 
-      public function contenido_controlador($seccion){
+      static public function contenido_controlador($seccion){
         if(isset($_SESSION["id"])){ 
             $permiso = $_SESSION["id"];
         }else{
@@ -679,7 +679,7 @@ class Core_Controlador{
         }
     }
 
-     public function formulario_agregar_contenido_controlador($datos){
+     static public function formulario_agregar_contenido_controlador($datos){
         echo '<div class="box-body">
             <form method="POST">
                 <div class="form-group has-feedback">
@@ -735,7 +735,7 @@ class Core_Controlador{
     }
 
     
-    public function formulario_editar_contenido_controlador($datos){
+    static public function formulario_editar_contenido_controlador($datos){
         $consulta = Core_Modelo::contenido_editar_modelo("contenido", $datos);
         echo '<div class="box-body">
 				<form method="POST">';
@@ -829,7 +829,7 @@ class Core_Controlador{
         echo $respuesta;
     }
 
-    public function formulario_eliminar_contenido_controlador($datos){
+    static public function formulario_eliminar_contenido_controlador($datos){
 		echo '<div class="alert alert-danger text-center">
 				<i class="icon fa fa-ban"></i><strong>ATENCIÓN:</strong><br>
 				<h5>Al eliminar este contenido ya no tendra acceso al mismo.</h5>
@@ -866,7 +866,7 @@ class Core_Controlador{
         return $respuesta;
     }
     
-    public function formulario_editar_servicio_controlador($datos){
+    static public function formulario_editar_servicio_controlador($datos){
         $consulta = Core_Modelo::consultar_servicio_modelo("servicio", $datos["formulario_editar_servicio_id"]);
         echo '<div class="box-body">
                 <form method="POST">

@@ -2,13 +2,13 @@
 
 class Ruta_Modelo{
 
-    public function raiz_modelo(){
+    static public function raiz_modelo(){
         return  "http://localhost/cirujanos/";
     }
 
     static public function fecha_modelo(){
         date_default_timezone_set("America/Bogota");
-        $fecha_servidor = date("Y-m-d H:i:sa");
+        $fecha_servidor = date("Y-m-d H:i:s");
         return  $fecha_servidor;
     }
 

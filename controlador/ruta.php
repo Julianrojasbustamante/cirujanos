@@ -2,7 +2,7 @@
 
 class Ruta_Controlador{
     
-    public function raiz_controlador(){
+    static public function raiz_controlador(){
         $respuesta = Ruta_Modelo::raiz_modelo();
         return $respuesta;
     }
@@ -12,7 +12,7 @@ class Ruta_Controlador{
         return $respuesta;
     }
 
-    public function enlace_controlador(){
+    static public function enlace_controlador(){
         $url = array();
         if(isset($_GET["url"])) {
             $url = explode("/", $_GET["url"]);
